@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://checklist-spec.org/schema/v1.0/checklist.json",
+  "title": "Checklist",
+  "description": "A checklist following the Checklist Specification v1.0",
+  "type": "object",
+  "required": ["$spec", "id", "title", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "$spec": {
+      "type": "string",
+      "const": "checklist/1.0",
+      "description": "Specification version identifier"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this checklist"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable title"
+    },
+    "desc": {
+      "type": "string",
+      "description": "Description or summary"
+    },
+    "created": {
+      "type": "string",
+      "description": "Creation timestamp (ISO 8601 date or datetime)"
+    },
+    "modified": {
+      "type": "string",
+      "description": "Last modification timestamp (ISO 8601 date or datetime)"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author name, email, or identifier"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categorization tags"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/item"
+      },
+      "description": "Array of checklist items"
+    }
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "required": ["id", "text"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier within this checklist"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Item content/description"
+        },
+        "done": {
+          "type": "boolean",
+          "default": false,
+          "description": "Completion status"
+        },
+        "pri": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "default": 3,
+          "description": "Priority: 1 (urgent) to 4 (low)"
+        },
+        "due": {
+          "type": "string",
+          "description": "Due date/time (ISO 8601 date or datetime)"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Item-level tags"
+        },
+        "assignee": {
+          "type": "string",
+          "description": "Assigned person/entity"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes or details"
+        },
+        "recur": {
+          "type": "string",
+          "pattern": "^FREQ=(DAILY|WEEKLY|MONTHLY|YEARLY)(;(INTERVAL=[1-9][0-9]*|BYDAY=(MO|TU|WE|TH|FR|SA|SU)(,(MO|TU|WE|TH|FR|SA|SU))*|BYMONTHDAY=([1-9]|[12][0-9]|3[01])(,([1-9]|[12][0-9]|3[01]))*|UNTIL=[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?)?|COUNT=[1-9][0-9]*))*$",
+          "description": "Recurrence rule (iCal RRULE subset)"
+        },
+        "after": {
+          "type": "string",
+          "description": "ID of item that must complete first"
+        },
+        "attach": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/attachment"
+          },
+          "description": "File attachments"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/item"
+          },
+          "description": "Nested sub-items"
+        }
+      }
+    },
+    "attachment": {
+      "type": "object",
+      "required": ["name", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Filename or display name"
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "description": "URL, relative path, or data URI"
+        },
+        "type": {
+          "type": "string",
+          "description": "MIME type"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "$spec": "checklist/1.0",
+  "id": "1",
+  "title": "Quick Tasks",
+  "items": [
+    {"id": "1", "text": "Buy groceries"},
+    {"id": "2", "text": "Call mom"}
+  ]
+}

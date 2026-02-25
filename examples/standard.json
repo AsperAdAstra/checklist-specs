@@ -1,0 +1,13 @@
+{
+  "$spec": "checklist/1.0",
+  "id": "weekly-review",
+  "title": "Weekly Review",
+  "desc": "End of week review tasks",
+  "tags": ["weekly", "review"],
+  "items": [
+    {"id": "1", "text": "Review completed tasks", "done": true},
+    {"id": "2", "text": "Plan next week", "pri": 1, "after": "1"},
+    {"id": "3", "text": "Update project status", "due": "2024-01-19"},
+    {"id": "4", "text": "Send weekly summary", "assignee": "me", "after": "2"}
+  ]
+}

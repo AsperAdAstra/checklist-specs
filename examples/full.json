@@ -1,0 +1,45 @@
+{
+  "$spec": "checklist/1.0",
+  "id": "proj-001",
+  "title": "Project Launch",
+  "desc": "Tasks for Q1 product launch",
+  "created": "2024-01-01T09:00:00Z",
+  "modified": "2024-01-15T14:30:00Z",
+  "author": "team@company.com",
+  "tags": ["project", "q1", "launch"],
+  "items": [
+    {
+      "id": "1",
+      "text": "Finalize requirements",
+      "done": true,
+      "pri": 1,
+      "assignee": "alice",
+      "notes": "Approved by stakeholders on Jan 5"
+    },
+    {
+      "id": "2",
+      "text": "Development phase",
+      "due": "2024-02-01",
+      "after": "1",
+      "items": [
+        {"id": "2.1", "text": "Backend API", "assignee": "bob"},
+        {"id": "2.2", "text": "Frontend UI", "assignee": "carol", "after": "2.1"},
+        {"id": "2.3", "text": "Integration testing", "after": "2.2"}
+      ]
+    },
+    {
+      "id": "3",
+      "text": "Daily standup",
+      "recur": "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR",
+      "notes": "9:00 AM team sync"
+    },
+    {
+      "id": "4",
+      "text": "Review design docs",
+      "attach": [
+        {"name": "design-spec.pdf", "url": "https://example.com/design-spec.pdf", "type": "application/pdf"},
+        {"name": "wireframes.png", "url": "./assets/wireframes.png", "type": "image/png"}
+      ]
+    }
+  ]
+}

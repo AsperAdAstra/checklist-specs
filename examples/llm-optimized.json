@@ -1,0 +1,1 @@
+{"$spec":"checklist/1.0","id":"1","title":"Sprint Tasks","items":[{"id":"1","text":"Fix login bug","pri":1},{"id":"2","text":"Add user settings page","after":"1"},{"id":"3","text":"Write tests","after":"2"},{"id":"4","text":"Deploy to staging","after":"3"}]}
