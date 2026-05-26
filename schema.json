@@ -52,6 +52,11 @@
         "$ref": "#/$defs/item"
       },
       "description": "Array of checklist items"
+    },
+    "ext": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extension properties"
     }
   },
   "$defs": {
@@ -70,17 +75,23 @@
           "minLength": 1,
           "description": "Item content/description"
         },
-        "done": {
-          "type": "boolean",
-          "default": false,
-          "description": "Completion status"
-        },
         "pri": {
           "type": "integer",
           "minimum": 1,
           "maximum": 4,
           "default": 3,
           "description": "Priority: 1 (urgent) to 4 (low)"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["todo", "in-progress", "done", "cancelled"],
+          "default": "todo",
+          "description": "Item status"
+        },
+        "completed": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Completion timestamp (ISO 8601 datetime)"
         },
         "due": {
           "type": "string",
@@ -103,7 +114,7 @@
         },
         "recur": {
           "type": "string",
-          "pattern": "^FREQ=(DAILY|WEEKLY|MONTHLY|YEARLY)(;(INTERVAL=[1-9][0-9]*|BYDAY=(MO|TU|WE|TH|FR|SA|SU)(,(MO|TU|WE|TH|FR|SA|SU))*|BYMONTHDAY=([1-9]|[12][0-9]|3[01])(,([1-9]|[12][0-9]|3[01]))*|UNTIL=[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?)?|COUNT=[1-9][0-9]*))*$",
+          "pattern": "^FREQ=(DAILY|WEEKLY|MONTHLY|YEARLY)(;(INTERVAL=[1-9][0-9]*|BYDAY=(MO|TU|WE|TH|FR|SA|SU)(,(MO|TU|WE|TH|FR|SA|SU))*|BYMONTHDAY=([1-9]|[12][0-9]|3[01])(,([1-9]|[12][0-9]|3[01]))*|BYMONTH=(1[0-2]|[1-9])(,(1[0-2]|[1-9]))*|DTSTART=[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?)?|UNTIL=[0-9]{4}-[0-9]{2}-[0-9]{2}(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|[+-][0-9]{2}:[0-9]{2})?)?|COUNT=[1-9][0-9]*))*$",
           "description": "Recurrence rule (iCal RRULE subset)"
         },
         "after": {
@@ -123,6 +134,11 @@
             "$ref": "#/$defs/item"
           },
           "description": "Nested sub-items"
+        },
+        "ext": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Extension properties"
         }
       }
     },

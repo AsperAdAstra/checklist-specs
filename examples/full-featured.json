@@ -7,11 +7,19 @@
   "modified": "2024-01-15T14:30:00Z",
   "author": "team@company.com",
   "tags": ["project", "q1", "launch"],
+  "ext": {
+    "customField": "customValue",
+    "integration": {
+      "jira": "PROJ-123",
+      "slack": "#project-launch"
+    }
+  },
   "items": [
     {
       "id": "1",
       "text": "Finalize requirements",
       "status": "done",
+      "completed": "2024-01-05T16:00:00Z",
       "pri": 1,
       "assignee": "alice",
       "notes": "Approved by stakeholders on Jan 5"
@@ -19,27 +27,41 @@
     {
       "id": "2",
       "text": "Development phase",
+      "status": "in-progress",
       "due": "2024-02-01",
       "after": "1",
       "items": [
-        {"id": "2.1", "text": "Backend API", "assignee": "bob"},
-        {"id": "2.2", "text": "Frontend UI", "assignee": "carol", "after": "2.1"},
-        {"id": "2.3", "text": "Integration testing", "after": "2.2"}
+        {"id": "2.1", "text": "Backend API", "status": "done", "completed": "2024-01-20T10:00:00Z", "assignee": "bob"},
+        {"id": "2.2", "text": "Frontend UI", "status": "in-progress", "assignee": "carol", "after": "2.1"},
+        {"id": "2.3", "text": "Integration testing", "status": "todo", "after": "2.2"}
       ]
     },
     {
       "id": "3",
       "text": "Daily standup",
+      "status": "todo",
       "recur": "FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR",
       "notes": "9:00 AM team sync"
     },
     {
       "id": "4",
       "text": "Review design docs",
+      "status": "todo",
+      "pri": 2,
       "attach": [
         {"name": "design-spec.pdf", "url": "https://example.com/design-spec.pdf", "type": "application/pdf"},
         {"name": "wireframes.png", "url": "./assets/wireframes.png", "type": "image/png"}
-      ]
+      ],
+      "ext": {
+        "reviewers": ["alice", "bob"],
+        "deadline": "2024-01-25"
+      }
+    },
+    {
+      "id": "5",
+      "text": "Cancelled task example",
+      "status": "cancelled",
+      "notes": "This task was cancelled due to scope change"
     }
   ]
 }

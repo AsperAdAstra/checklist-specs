@@ -1,0 +1,76 @@
+{
+  "$spec": "checklist/1.0",
+  "id": "ext-demo",
+  "title": "Extension Fields Demo",
+  "desc": "Demonstrates ext usage at checklist and item levels",
+  "ext": {
+    "version": "2.0",
+    "source": "my-app",
+    "customMetadata": {
+      "department": "engineering",
+      "budget": 50000,
+      "stakeholders": ["alice", "bob", "carol"]
+    },
+    "integrations": {
+      "github": "org/repo",
+      "linear": "TEAM-123",
+      "slack": "#checklist-updates"
+    }
+  },
+  "items": [
+    {
+      "id": "1",
+      "text": "Task with item-level ext",
+      "status": "done",
+      "completed": "2024-01-10T14:30:00Z",
+      "ext": {
+        "estimatedHours": 4,
+        "actualHours": 3.5,
+        "skillRequired": "backend",
+        "tools": ["VS Code", "Postman"]
+      }
+    },
+    {
+      "id": "2",
+      "text": "Task without ext",
+      "status": "in-progress",
+      "pri": 2,
+      "assignee": "bob"
+    },
+    {
+      "id": "3",
+      "text": "Task with multiple ext fields",
+      "status": "todo",
+      "due": "2024-02-01",
+      "ext": {
+        "labels": ["feature", "priority"],
+        "customStatus": "pending-review",
+        "externalId": "EXT-789",
+        "notifications": {
+          "email": true,
+          "slack": false,
+          "sms": true
+        }
+      }
+    },
+    {
+      "id": "4",
+      "text": "Nested item with ext",
+      "status": "todo",
+      "items": [
+        {
+          "id": "4.1",
+          "text": "Sub-item with ext",
+          "ext": {
+            "parentTask": "4",
+            "order": 1
+          }
+        },
+        {
+          "id": "4.2",
+          "text": "Sub-item without ext"
+        }
+      ]
+    }
+  ]
+}
