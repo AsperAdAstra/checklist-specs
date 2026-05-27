@@ -2,5 +2,9 @@
   "devDependencies": {
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.js",
+    "prepare": "cp -n scripts/pre-commit .git/hooks/pre-commit 2>/dev/null || true"
   }
 }

@@ -1,0 +1,6 @@
+#!/bin/bash
+# Pre-commit hook to validate examples before commit
+# Install: cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+echo "Validating examples..."
+npm run validate

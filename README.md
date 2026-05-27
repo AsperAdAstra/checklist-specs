@@ -1,5 +1,7 @@
 # Checklist Specification v1.0
 
+[![Validate](https://github.com/AsperAdAstra/checklist-specs/actions/workflows/validate.yml/badge.svg)](https://github.com/AsperAdAstra/checklist-specs/actions/workflows/validate.yml)
+
 A JSON-based format for interoperable, LLM-friendly checklists.
 
 ## Quick Start
