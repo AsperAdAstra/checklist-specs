@@ -99,13 +99,14 @@ This provides better granularity than a simple true/false while still being LLM-
 | `items` | Item[] | ✅ | — | Array of checklist items. Must contain ≥ 1 item. |
 | `ext` | object | ❌ | *(omitted)* | Extension data for custom fields. |
 
-> **Key constraints** (enforced by the JSON Schema):
-> - No additional properties are allowed on any object (`additionalProperties: false`).
-> - `id`, `title`, and `text` must be non-empty strings (`minLength: 1`).
+> **Key constraints** (JSON Schema enforces structural; semantic rules require custom validation):
+> - No additional properties (`additionalProperties: false`).
+> - `id`, `title`, `text` must be non-empty strings (`minLength: 1`).
 > - `items` must contain at least one entry (`minItems: 1`).
-> - All item IDs within a checklist must be unique (across all nesting levels).
-> - `after` references must point to existing item IDs.
-> - No circular `after` dependency chains.
+> - **Semantic rules** (require custom validation):
+>   - All item IDs must be unique across all nesting levels.
+>   - `after` references must point to existing item IDs.
+>   - No circular `after` dependency chains.
 
 ### Item Object
 
@@ -114,7 +115,7 @@ This provides better granularity than a simple true/false while still being LLM-
 | `id` | string | ✅ | — | Unique identifier within this checklist. Non-empty. |
 | `text` | string | ✅ | — | Item content or description. Non-empty. |
 | `status` | string | ❌ | *(omitted)* | Completion status: `todo`, `in-progress`, `done`, `cancelled`. |
-| `completed` | boolean | ❌ | *(omitted)* | Derived: `true` when `status` is `done`. |
+| `completed` | string | ❌ | *(omitted)* | ISO 8601 datetime when `status` became `done`. |
 | `pri` | integer | ❌ | *(omitted)* | Priority: `1` (urgent) → `4` (low). |
 | `due` | string | ❌ | *(omitted)* | Due date/time (ISO 8601). |
 | `tags` | string[] | ❌ | *(omitted)* | Item-level tags. |
@@ -160,12 +161,11 @@ The `status` field replaces the boolean `done` field with a 4-state system:
 
 ### Completed (`completed`)
 
-The `completed` field is a derived boolean field:
+The `completed` field is an ISO 8601 datetime timestamp recording when the item's `status` transitioned to `done`:
 
-- `completed: true` when `status` is `"done"`
-- `completed: false` or omitted when `status` is anything else
-
-This field is provided for compatibility with systems that use a boolean completion flag.
+- Set automatically when status changes to `"done"`
+- Format: `2024-01-15T09:30:00Z`
+- May be omitted for completed items (optional audit trail)
 
 ### Extension Data (`ext`)
 
@@ -415,23 +415,26 @@ Implementations **SHOULD** validate checklists against the provided [`schema.jso
 
 ### Required Validations
 
-These are enforced by the JSON Schema and must pass for a checklist to be considered valid:
+**JSON Schema** (structural validation via schema.json):
 
 1. `$spec` must equal `"checklist/1.0"`.
 2. `id` and `title` must be non-empty strings (`minLength: 1`).
 3. `items` must be a non-empty array (`minItems: 1`).
 4. Each item must have `id` and `text` as non-empty strings.
 5. `pri` must be an integer between 1 and 4 (inclusive).
-6. `after` references must point to an item ID that exists within the same checklist.
-7. No circular dependencies in `after` chains (e.g., A→B→C→A is invalid).
-8. No additional properties on any object (strict schema).
+6. No additional properties on any object (`additionalProperties: false`).
+
+**Semantic validation** (must be implemented separately):
+
+7. **ID uniqueness:** All item IDs must be unique across the entire checklist, including all nesting levels.
+8. **Reference integrity:** Each `after` value must reference an existing item ID within the same checklist.
+9. **No circular dependencies:** `after` chains must not create cycles (e.g., A→B→C→A is invalid).
 
 ### Optional Validations
 
 1. Dates should be valid ISO 8601 format.
 2. `recur` should follow the RRULE subset syntax (enforced by regex in the schema).
 3. Attachment URLs should be valid URIs.
-4. **ID uniqueness:** All item IDs must be unique across the entire checklist, including across all nesting levels.
 
 ### Conformance
 
